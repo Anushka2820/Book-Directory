@@ -3,12 +3,9 @@ const app = express();
 const createRecord = require("./service/func/createRecord.js");
 app.use(express.json());
 
-app.post('/create', async function (req, res) {
-    let resp = await createRecord.create(req.body);
-    // console.log(resp);
-    res.json(resp);
-    res.end();
-    // process.exit();
+app.post('/create', async function (request, response) {
+    response.json(await createRecord.create(request.body));
+    response.end();
 });
 
 app.listen(5000);

@@ -3,11 +3,11 @@ const bookPayload = require("../util/payloadBuilder/bookPayload.js");
 const filename = __filename.slice(__dirname.length + 1, -3);
 
 module.exports = {
-    create: async function (req) {
+    create: async function (request) {
         try {
             console.log(`=========== ${filename} start ===========`);
-            console.log(`Request:::${JSON.stringify(req)}`);
-            let createPayload = await bookPayload.getCreatePayload(req);
+            console.log(`Request:::${JSON.stringify(request)}`);
+            let createPayload = await bookPayload.getCreatePayload(request);
             let insertResponse = await callQueryDB.insert(createPayload);
             return await new Promise((resolve, reject) => {
                 console.log(`Response:::${JSON.stringify(insertResponse)}`);
