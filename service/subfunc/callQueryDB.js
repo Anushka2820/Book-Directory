@@ -20,5 +20,42 @@ module.exports = {
             console.log(err);
             throw err;
         }
+    },
+    delete: async function (requestPayload) {
+        try {
+            console.log(`=========== ${filename} start ===========`);
+            const client = new MongoClient(dbUri);
+            await client.connect();
+            const db = client.db("local");
+            const collection = db.collection('test');
+            console.log(`Request:::${JSON.stringify(requestPayload)}`);
+            const deleteResponse = await collection.deleteOne(requestPayload);
+            console.log(`Response:::${JSON.stringify(deleteResponse)}`);
+            console.log(`=========== ${filename} exit ===========`);
+            return await Promise.resolve(deleteResponse);
+        }
+        catch (err) {
+            console.log(err);
+            throw err;
+        }
+    },
+    update: async function (name, status) {
+        try {
+            console.log(`=========== ${filename} start ===========`);
+            const client = new MongoClient(dbUri);
+            await client.connect();
+            const db = client.db("local");
+            const collection = db.collection('test');
+            console.log(`Name :::${name}`);
+            console.log(`Status :::${status}`);
+            const updateResponse = await collection.updateOne({ name }, { $set: { status } });
+            console.log(`Response:::${JSON.stringify(updateResponse)}`);
+            console.log(`=========== ${filename} exit ===========`);
+            return await Promise.resolve(updateResponse);
+        }
+        catch (err) {
+            console.log(err);
+            throw err;
+        }
     }
 };
