@@ -1,0 +1,51 @@
+.HomePage {
+    display: flex;
+    flex-direction: row;
+    user-select: none;
+    background-color: #d8dafc;
+}
+
+.SignInTab {
+    width: 15vw;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+    color: #1B1340;
+    font-size: 2vw;
+    text-shadow: 0 0 5px #085801;
+}
+
+.PageNameTab {
+    border-radius: 5vh;
+    margin-block: 0.8vh;
+    box-shadow: 1vh 0 1vh 0.5vh #443974, -1vh 0 1vh 0.5vh #443974;
+    width: 70vw;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+    cursor: grab;
+    color: #ffffff;
+    background-color: #1B1340;
+    font-size: 6vw;
+    font-weight: bold;
+    font-family: "Exo", sans-serif;
+    font-optical-sizing: auto;
+    font-weight: 500;
+    font-style: normal;
+    text-shadow: 0 0 5px #ffbb00;
+}
+
+.SignUpTab {
+    width: 15vw;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+    color: #1B1340;
+    font-size: 2vw;
+    text-shadow: 0 0 5px #580101;
+}
