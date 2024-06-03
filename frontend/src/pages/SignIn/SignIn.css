@@ -17,7 +17,7 @@
     color: #FFFFFF;
     background-color: #1B1340;
     font-size: 2vw;
-    text-shadow: 0 0 5px #085801;
+    text-shadow: 0 0 5px #ffbb00;
 }
 
 .SignInMainTab {
@@ -33,7 +33,10 @@
 }
 
 .SignInMainTabButtons {
+    width: 20vw;
     display: flex;
     flex-direction: row;
     user-select: none;
+    justify-content: space-between;
+    align-items: stretch;
 }

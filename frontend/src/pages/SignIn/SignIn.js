@@ -9,6 +9,25 @@ const SignIn = () => {
         navigate("/");
     }
 
+    function button(textValue, onClickFunction) {
+        return (
+            <button
+                onClick={onClickFunction}
+                style={{
+                    height: "5vh",
+                    width: "9vw",
+                    borderRadius: "5vh",
+                    background: "#1B1340",
+                    borderBlockColor: "#1B1340",
+                    color: "#FFFFFF",
+                    fontSize: "60%",
+                    cursor: "pointer"
+                }}>
+                {textValue}
+            </button>
+        );
+    }
+
     return (
         <div className="SignInPage">
             <div className="SignInLeftTab">
@@ -19,36 +38,10 @@ const SignIn = () => {
             </div>
             <div className="SignInMainTab">
                 <InputField label="Username" maxLength="20" />
-                <br />
                 <InputField label="Password" type="password" maxLength="20" />
-                <br />
                 <div className="SignInMainTabButtons">
-                    <div>
-                        <button onClick={routeToHome} style={{
-                            height: "5vh",
-                            width: "8vw",
-                            borderRadius: "5vh",
-                            background: "#1B1340",
-                            borderBlockColor: "#1B1340",
-                            color: "#FFFFFF",
-                            fontSize: "60%",
-                            cursor: "pointer",
-                            marginRight: "2vw"
-                        }}>Sign In</button>
-                    </div>
-                    <div>
-                        <button onClick={routeToHome} style={{
-                            height: "5vh",
-                            width: "8vw",
-                            borderRadius: "5vh",
-                            background: "#1B1340",
-                            borderBlockColor: "#1B1340",
-                            color: "#FFFFFF",
-                            fontSize: "60%",
-                            cursor: "pointer",
-                            marginLeft: "2vw"
-                        }}>Go To Home</button>
-                    </div>
+                    {button("Sign In", routeToHome)}
+                    {button("Go To Home", routeToHome)}
                 </div>
             </div>
         </div>

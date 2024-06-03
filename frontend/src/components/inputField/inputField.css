@@ -5,7 +5,8 @@ input {
 .field {
     width: 20vw;
     height: 6vh;
-    border-radius: 2vh;
+    border-radius: 5vh;
+    margin-bottom: 2vh;
     position: relative;
     background-color: #1B1340;
     transition: 0.3s background-color ease-in-out, 0.3s box-shadow ease-in-out;
