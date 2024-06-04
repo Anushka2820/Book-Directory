@@ -57,7 +57,11 @@ export default class InputField extends React.Component {
                             {error || label}
                         </label>
                     </div>
-                    <div style={{ display: (type === "password") ? "block" : "none" }}><i className={showPassword ? "bi-eye" : "bi bi-eye-slash"} onClick={() => this.setState({ showPassword: !showPassword })}></i></div>
+                    <div style={{ display: (type === "password") ? "block" : "none" }}>
+                        <i className={showPassword ? "bi-eye passwordIcon" : "bi bi-eye-slash passwordIcon"}
+                            onClick={() => this.setState({ showPassword: !showPassword })}>
+                        </i>
+                    </div>
                 </div>
             </div>
         );
