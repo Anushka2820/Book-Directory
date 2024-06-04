@@ -12,7 +12,6 @@ const Home = () => {
         } else if (data.lastX + data.deltaX > window.innerWidth / 50) {
             navigate("/sign-up");
         } else {
-            console.log(data.lastX + data.deltaX);
             window.location.reload();
         }
     }

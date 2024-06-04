@@ -34,33 +34,30 @@ export default class InputField extends React.Component {
             "active"} ${locked && !active && "locked"}`;
 
         return (
-            <div>
-                <div className={fieldClassName}>
-                    <style>@import url("https://cdn.jsdelivr.net/npm/bootstrap-icons@1.3.0/font/bootstrap-icons.css");</style>
-                    {active &&
-                        value &&
-                        predicted &&
-                        predicted.includes(value) && <p className="predicted">{predicted}</p>}
-                    <div className="passwordField">
-                        <div>
-                            <input
-                                type={(type === "password" && showPassword) ? "text" : type}
-                                value={value}
-                                placeholder={label}
-                                autoComplete="off"
-                                onChange={this.changeValue.bind(this)}
-                                maxLength={maxLength}
-                                // onKeyPress={this.handleKeyPress.bind(this)}
-                                onFocus={() => !locked && this.setState({ active: true })}
-                                onBlur={() => !locked && this.setState({ active: false })}
-                            />
+            <div className={fieldClassName}>
+                <style>@import url("https://cdn.jsdelivr.net/npm/bootstrap-icons@1.3.0/font/bootstrap-icons.css");</style>
+                {active &&
+                    value &&
+                    predicted &&
+                    predicted.includes(value) && <p className="predicted">{predicted}</p>}
+                <div>
+                    <div>
+                        <input
+                            type={(type === "password" && showPassword) ? "text" : type}
+                            value={value}
+                            placeholder={label}
+                            autoComplete="off"
+                            onChange={this.changeValue.bind(this)}
+                            maxLength={maxLength}
+                            onFocus={() => !locked && this.setState({ active: true })}
+                            onBlur={() => !locked && this.setState({ active: false })}
+                        />
 
-                            <label htmlFor={1} className={error && "error"}>
-                                {error || label}
-                            </label>
-                        </div>
-                        <div style={{ display: (type === "password") ? "block" : "none" }}><i className={showPassword ? "bi-eye" : "bi bi-eye-slash"} onClick={() => this.setState({ showPassword: !showPassword })}></i></div>
+                        <label htmlFor={1} className={error && "error"}>
+                            {error || label}
+                        </label>
                     </div>
+                    <div style={{ display: (type === "password") ? "block" : "none" }}><i className={showPassword ? "bi-eye" : "bi bi-eye-slash"} onClick={() => this.setState({ showPassword: !showPassword })}></i></div>
                 </div>
             </div>
         );
