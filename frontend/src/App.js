@@ -1,5 +1,5 @@
 import React from 'react';
-import Home from "./pages/Home/Home";
+import LandingPage from "./pages/LandingPage/LandingPage";
 import NoPage from "./pages/NoPage/NoPage";
 import SignIn from './pages/SignIn/SignIn';
 import SignUp from './pages/SignUp/SignUp';
@@ -9,7 +9,7 @@ function App() {
     return (
         <BrowserRouter>
             <Routes>
-                <Route index element={<Home />} />
+                <Route index element={<LandingPage />} />
                 <Route path="/sign-in" element={<SignIn />} />
                 <Route path="/sign-up" element={<SignUp />} />
                 <Route path="*" element={<NoPage />} />
