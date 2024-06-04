@@ -19,17 +19,18 @@ const Home = () => {
     return (
         <div className="HomePage">
             <style>@import url("https://fonts.googleapis.com/css2?family=Exo:wght@500&display=swap");</style>
+            <style>@import url("https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css");</style>
             <div className="SignInTab">
                 Sign In
             </div>
             <Draggable axis="x" bounds={{ left: -(window.innerWidth / 7), right: (window.innerWidth / 7) }} onStop={eventHandler}>
                 <div className="PageNameTab">
-                    <div>{"<<"}</div>
+                    <div><i className="fa fa-angle-left"></i></div>
                     <div style={{ width: "50vw", textAlign: "center" }}>
-                        <p>BOOK</p>
-                        <p>DIRECTORY</p>
+                        BOOK<br />
+                        DIRECTORY
                     </div>
-                    <div>{">>"}</div>
+                    <div><i className="fa fa-angle-right"></i></div>
                 </div>
             </Draggable>
             <div className="SignUpTab">
