@@ -38,5 +38,6 @@
     flex-direction: row;
     user-select: none;
     justify-content: space-between;
+    font-size: 2vw;
     align-items: stretch;
 }
