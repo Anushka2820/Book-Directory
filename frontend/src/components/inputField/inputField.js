@@ -8,7 +8,6 @@ export default class InputField extends React.Component {
         this.state = {
             active: (props.locked && props.active) || false,
             value: props.value || "",
-            error: props.error || "",
             label: props.label || "Label",
             type: props.type || "text",
             maxLength: props.maxLength,
@@ -18,30 +17,27 @@ export default class InputField extends React.Component {
 
     changeValue(event) {
         const value = event.target.value;
-        this.setState({ value, error: "" });
-    }
-
-    handleKeyPress(event) {
-        if (event.which === 13) {
-            this.setState({ value: this.props.predicted });
-        }
+        this.setState({ value });
     }
 
     render() {
-        const { active, value, error, label, type, maxLength, showPassword } = this.state;
-        const { predicted, locked } = this.props;
-        const fieldClassName = `field ${(locked ? active : active || value) &&
-            "active"} ${locked && !active && "locked"}`;
+        const { active, value, label, type, maxLength, showPassword } = this.state;
+        const { locked } = this.props;
+        let fieldClassName = "field nonActive";
+
+        if (locked ? active : active || value) {
+            fieldClassName = "field active";
+        }
+
+        if (locked && !active) {
+            fieldClassName += " locked";
+        }
 
         return (
-            <div className={fieldClassName}>
+            <div >
                 <style>@import url("https://cdn.jsdelivr.net/npm/bootstrap-icons@1.3.0/font/bootstrap-icons.css");</style>
-                {active &&
-                    value &&
-                    predicted &&
-                    predicted.includes(value) && <p className="predicted">{predicted}</p>}
                 <div>
-                    <div>
+                    <div className={fieldClassName}>
                         <input
                             type={(type === "password" && showPassword) ? "text" : type}
                             value={value}
@@ -50,17 +46,20 @@ export default class InputField extends React.Component {
                             onChange={this.changeValue.bind(this)}
                             maxLength={maxLength}
                             onFocus={() => !locked && this.setState({ active: true })}
-                            onBlur={() => !locked && this.setState({ active: false })}
+                            onBlur={() => {
+                                !locked && this.setState({ active: false });
+                            }}
                         />
 
-                        <label htmlFor={1} className={error && "error"}>
-                            {error || label}
+                        <label htmlFor={1} className="title" style={{ display: (active || value) ? "block" : "none" }}>
+                            {label}
                         </label>
-                    </div>
-                    <div style={{ display: (type === "password") ? "block" : "none" }}>
-                        <i className={showPassword ? "bi-eye passwordIcon" : "bi bi-eye-slash passwordIcon"}
-                            onClick={() => this.setState({ showPassword: !showPassword })}>
-                        </i>
+                        <div>
+                            <i className={showPassword ? "bi-eye passwordIcon" : "bi bi-eye-slash passwordIcon"}
+                                onClick={() => this.setState({ showPassword: !showPassword })}
+                                style={{ display: (type === "password") ? "block" : "none" }}>
+                            </i>
+                        </div>
                     </div>
                 </div>
             </div>

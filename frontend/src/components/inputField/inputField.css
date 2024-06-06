@@ -3,6 +3,9 @@ input {
 }
 
 .field {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
     width: 20vw;
     height: 6vh;
     border-radius: 5vh;
@@ -22,7 +25,7 @@ input {
 }
 
 .field.active input {
-    padding: 4vh 2vw 3vh 1vw;
+    padding: 6vh 2vw 3vh 1vw;
 }
 
 .field.active input+label {
@@ -38,7 +41,7 @@ input {
 
 .field input {
     width: 100%;
-    height: 7vh;
+    height: 3.5vh;
     position: relative;
     padding: 0vh 1vw;
     border: none;
@@ -102,9 +105,16 @@ input {
     pointer-events: none;
 }
 
+.inputComponent {
+    display: flex;
+    flex-direction: "row";
+}
+
 .passwordIcon {
     position: absolute;
-    top: 0.6vh;
+    bottom: calc((6vh - 4vh)/ 2);
+    top: 0.5vh;
+    font-size: 4vh;
     left: 17vw;
     cursor: pointer;
     text-shadow: 0 0 0.5vh #ffffff;

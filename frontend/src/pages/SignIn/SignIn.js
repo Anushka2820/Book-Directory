@@ -1,6 +1,7 @@
 import './SignIn.css';
 import { useNavigate } from 'react-router-dom';
 import InputField from '../../components/inputField/inputField.js';
+// import InputTest from '../../components/inputTest/inputTest.js';
 import React from 'react';
 
 const SignIn = () => {
@@ -20,7 +21,7 @@ const SignIn = () => {
                     background: "#1B1340",
                     borderBlockColor: "#1B1340",
                     color: "#FFFFFF",
-                    fontSize: "60%",
+                    fontSize: "0.6em",
                     cursor: "pointer"
                 }}>
                 {textValue}
