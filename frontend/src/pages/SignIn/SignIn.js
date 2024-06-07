@@ -1,13 +1,39 @@
 import './SignIn.css';
 import { useNavigate } from 'react-router-dom';
 import InputField from '../../components/inputField/inputField.js';
-// import InputTest from '../../components/inputTest/inputTest.js';
-import React from 'react';
+import React, { useState } from 'react';
+import appUtil from '../../util/appUtil.js';
 
 const SignIn = () => {
     const navigate = useNavigate();
-    function routeToHome() {
+
+    let [stateParams, updateState] = useState({
+        Username: "",
+        Password: ""
+    });
+
+    function routeToLandingPage() {
         navigate("/");
+    }
+
+    function routeToHomePage() {
+        let usernameValidated = appUtil.validateEmail(stateParams.Username, "Username", true);
+        let passwordValidated = appUtil.validatePassword(stateParams.Password, "Password", true);
+        if (usernameValidated && passwordValidated) {
+            navigate("/");
+        } else {
+            // console.log("a");
+        }
+    }
+
+    function updateAndValidateValue(event, validateFunction) {
+        validateFunction(event.target.value, event.target.className);
+        updateState({ ...stateParams, [event.target.className]: event.target.value });
+    }
+
+    function clearError(event, validateFunction) {
+        validateFunction("", event.target.className);
+        updateState({ ...stateParams, [event.target.className]: event.target.value });
     }
 
     function button(textValue, onClickFunction) {
@@ -38,11 +64,15 @@ const SignIn = () => {
                 Sign In
             </div>
             <div className="SignInMainTab">
-                <InputField label="Username" maxLength="20" />
-                <InputField label="Password" type="password" maxLength="20" />
+                <InputField label="Username" maxLength="20"
+                    onBlurFunction={(event) => { updateAndValidateValue(event, appUtil.validateEmail) }}
+                    onChangeFunction={(event) => { clearError(event, appUtil.validateEmail) }} />
+                <InputField label="Password" maxLength="20"
+                    onBlurFunction={(event) => { updateAndValidateValue(event, appUtil.validatePassword) }}
+                    onChangeFunction={(event) => { clearError(event, appUtil.validateEmail) }} type="password" />
                 <div className="SignInMainTabButtons">
-                    {button("Sign In", routeToHome)}
-                    {button("Go To Home", routeToHome)}
+                    {button("Sign In", routeToHomePage)}
+                    {button("Go To Home", routeToLandingPage)}
                 </div>
             </div>
         </div>

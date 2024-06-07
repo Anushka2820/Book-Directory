@@ -9,7 +9,6 @@ input {
     width: 20vw;
     height: 6vh;
     border-radius: 5vh;
-    margin-bottom: 2vh;
     position: relative;
     background-color: #1B1340;
     transition: 0.5s background-color ease-in-out, 0.5s box-shadow ease-in-out;
@@ -113,9 +112,20 @@ input {
 .passwordIcon {
     position: absolute;
     bottom: calc((6vh - 4vh)/ 2);
-    top: 0.5vh;
+    top: 0.3vh;
     font-size: 4vh;
     left: 17vw;
     cursor: pointer;
     text-shadow: 0 0 0.5vh #ffffff;
+}
+
+.error {
+    width: 10vw;
+    font-size: 1.5vh;
+    color: #ec392f;
+    text-shadow: none;
+    flex-direction: row;
+    user-select: none;
+    justify-content: left;
+    align-items: left;
 }

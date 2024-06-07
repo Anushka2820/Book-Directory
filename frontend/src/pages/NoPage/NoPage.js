@@ -4,7 +4,7 @@ const image = require("../../images/NoPage.jpg");
 
 const NoPage = () => {
     const navigate = useNavigate();
-    function routeToHome() {
+    function routeToLandingPage() {
         navigate("/");
     }
     return (
@@ -13,7 +13,7 @@ const NoPage = () => {
                 <img src={image} style={{ height: "70vh" }} alt="404 - Not Found" />
             </div>
             <div>
-                <button onClick={routeToHome} style={{
+                <button onClick={routeToLandingPage} style={{
                     height: "5vh",
                     width: "15vw",
                     borderRadius: "5vh",
