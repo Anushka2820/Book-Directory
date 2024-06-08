@@ -25,12 +25,16 @@ const LandingPage = () => {
             </div>
             <Draggable axis="x" bounds={{ left: -(window.innerWidth / 7), right: (window.innerWidth / 7) }} onStop={eventHandler}>
                 <div className="PageNameTab">
-                    <div><i className="fa fa-angle-left"></i></div>
+                    <div><i className="fa fa-angle-left thirdArraow"></i></div>
+                    <div><i className="fa fa-angle-left secondArrow"></i></div>
+                    <div><i className="fa fa-angle-left firstArrow"></i></div>
                     <div style={{ width: "50vw", textAlign: "center" }}>
                         BOOK<br />
                         DIRECTORY
                     </div>
-                    <div><i className="fa fa-angle-right"></i></div>
+                    <div><i className="fa fa-angle-right firstArrow"></i></div>
+                    <div><i className="fa fa-angle-right secondArrow"></i></div>
+                    <div><i className="fa fa-angle-right thirdArraow"></i></div>
                 </div>
             </Draggable>
             <div className="SignUpTab">

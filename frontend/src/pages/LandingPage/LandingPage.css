@@ -49,3 +49,69 @@
     font-size: 2vw;
     text-shadow: 0 0 5px #580101;
 }
+
+.firstArrow {
+    animation: blinkerForFirstArrow 4s linear infinite;
+}
+
+@keyframes blinkerForFirstArrow {
+    0% {
+        opacity: 1;
+    }
+
+    30% {
+        opacity: 0.5;
+    }
+
+    60% {
+        opacity: 0.2;
+    }
+
+    100% {
+        opacity: 0;
+    }
+}
+
+.secondArrow {
+    animation: blinkerForSecondArrow 4s linear infinite;
+}
+
+@keyframes blinkerForSecondArrow {
+    0% {
+        opacity: 0;
+    }
+
+    30% {
+        opacity: 1;
+    }
+
+    60% {
+        opacity: 0.5;
+    }
+
+    100% {
+        opacity: 0;
+    }
+}
+
+.thirdArraow {
+    animation: blinkerForThirdArrow 4s linear infinite;
+}
+
+@keyframes blinkerForThirdArrow {
+    0% {
+        opacity: 0;
+    }
+
+    30% {
+        opacity: 0.5;
+    }
+
+    60% {
+        opacity: 1;
+    }
+
+    100% {
+        opacity: 0;
+    }
+}
