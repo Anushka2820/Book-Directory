@@ -1,60 +1,108 @@
-const mongodb = require('mongodb');
-const { MongoClient } = require('mongodb');
-const dbUri = "mongodb://localhost:27017";
+const MongoClient = require("mongodb").MongoClient;
+const { dbDetails } = require("../util/appUtil.js");
+const framework = require("../../common/framework.js");
 const filename = __filename.slice(__dirname.length + 1, -3);
+
 module.exports = {
-    insert: async function (requestPayload) {
+    insert: async function (requestPayload, tableName) {
         try {
-            console.log(`=========== ${filename} start ===========`);
-            const client = new MongoClient(dbUri);
+            framework.info(`=========== ${filename}.${arguments.callee.name} start ===========`);
+            framework.info(`DB connection details ::: ${dbDetails.uri}:${dbDetails.database}:${tableName}`);
+            let startTime = framework.logRequest(`${filename}.${arguments.callee.name}`, requestPayload);
+
+            const client = new MongoClient(dbDetails.uri);
             await client.connect();
-            const db = client.db("local");
-            const collection = db.collection('test');
-            console.log(`Request:::${JSON.stringify(requestPayload)}`);
-            const insertResponse = await collection.insertOne(requestPayload);
-            console.log(`Response:::${JSON.stringify(insertResponse)}`);
-            console.log(`=========== ${filename} exit ===========`);
+
+            const db = client.db(dbDetails.database);
+            const collection = db.collection(tableName);
+            let insertResponse = await collection.insertOne(requestPayload).catch(err => {
+                let errorResponse = err.errmsg || err;
+                if (errorResponse.includes("duplicate key error collection")) {
+                    framework.info("Duplicate pkey error");
+                } else {
+                    framework.info(`DDB error response ::: ${err}`);
+                    client.close();
+                    throw err;
+                }
+            });
+            await client.close();
+
+            framework.logResponse(`${filename}.${arguments.callee.name}`, insertResponse, startTime);
+            framework.info(`=========== ${filename}.${arguments.callee.name} exit ===========`);
             return await Promise.resolve(insertResponse);
         }
         catch (err) {
-            console.log(err);
+            framework.info(err);
             throw err;
         }
     },
-    delete: async function (requestPayload) {
+    delete: async function (requestPayload, tableName) {
         try {
-            console.log(`=========== ${filename} start ===========`);
-            const client = new MongoClient(dbUri);
+            framework.info(`=========== ${filename}.${arguments.callee.name} start ===========`);
+            framework.info(`DB connection details ::: ${dbDetails.uri}:${dbDetails.database}:${tableName}`);
+            let startTime = framework.logRequest(`${filename}.${arguments.callee.name}`, requestPayload);
+
+            const client = new MongoClient(dbDetails.uri);
             await client.connect();
-            const db = client.db("local");
-            const collection = db.collection('test');
-            console.log(`Request:::${JSON.stringify(requestPayload)}`);
-            const deleteResponse = await collection.deleteOne(requestPayload);
-            console.log(`Response:::${JSON.stringify(deleteResponse)}`);
-            console.log(`=========== ${filename} exit ===========`);
+
+            const db = client.db(dbDetails.database);
+            const collection = db.collection(tableName);
+            let deleteResponse = await collection.deleteOne(requestPayload);
+            await client.close();
+
+            framework.logResponse(`${filename}.${arguments.callee.name}`, deleteResponse, startTime);
+            framework.info(`=========== ${filename}.${arguments.callee.name} exit ===========`);
             return await Promise.resolve(deleteResponse);
         }
         catch (err) {
-            console.log(err);
+            framework.info(err);
             throw err;
         }
     },
-    update: async function (name, status) {
+    update: async function (name, status, tableName) {
         try {
-            console.log(`=========== ${filename} start ===========`);
-            const client = new MongoClient(dbUri);
+            framework.info(`=========== ${filename}.${arguments.callee.name} start ===========`);
+            framework.info(`DB connection details ::: ${dbDetails.uri}:${dbDetails.database}:${tableName}`);
+            let startTime = framework.logRequest(`${filename}.${arguments.callee.name}`, `Name ::: [${name}] Status ::: [${status}]`);
+
+            const client = new MongoClient(dbDetails.uri);
             await client.connect();
-            const db = client.db("local");
-            const collection = db.collection('test');
-            console.log(`Name :::${name}`);
-            console.log(`Status :::${status}`);
-            const updateResponse = await collection.updateOne({ name }, { $set: { status } });
-            console.log(`Response:::${JSON.stringify(updateResponse)}`);
-            console.log(`=========== ${filename} exit ===========`);
+
+            const db = client.db(dbDetails.database);
+            const collection = db.collection(tableName);
+            framework.info();
+            let updateResponse = await collection.updateOne({ name }, { $set: { status } });
+            await client.close();
+
+            framework.logResponse(`${filename}.${arguments.callee.name}`, updateResponse, startTime);
+            framework.info(`=========== ${filename}.${arguments.callee.name} exit ===========`);
             return await Promise.resolve(updateResponse);
         }
         catch (err) {
-            console.log(err);
+            framework.info(err);
+            throw err;
+        }
+    },
+    read: async function (query, options, limit, skip, tableName) {
+        try {
+            framework.info(`=========== ${filename}.${arguments.callee.name} start ===========`);
+            framework.info(`DB connection details ::: ${dbDetails.uri}:${dbDetails.database}:${tableName}`);
+            let startTime = framework.logRequest(`${filename}.${arguments.callee.name}`, { query, options, limit, skip });
+
+            const client = new MongoClient(dbDetails.uri);
+            await client.connect();
+
+            const db = client.db(dbDetails.database);
+            const collection = db.collection(tableName);
+            let readResponse = await collection.find(query, options).limit(limit).skip(skip).toArray();
+            await client.close();
+
+            framework.logResponse(`${filename}.${arguments.callee.name}`, readResponse, startTime);
+            framework.info(`=========== ${filename}.${arguments.callee.name} exit ===========`);
+            return await Promise.resolve(readResponse);
+        }
+        catch (err) {
+            framework.info(err);
             throw err;
         }
     }

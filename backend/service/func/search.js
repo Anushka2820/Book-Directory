@@ -6,7 +6,7 @@ const responseBuilder = require("../util/responseBuilder.js");
 const filename = __filename.slice(__dirname.length + 1, -3);
 
 module.exports = {
-    delete: async function (args) {
+    search: async function (args) {
         try {
             framework.info(`=========== ${filename} start ===========`);
             let requestPayload = args.payload;
@@ -16,8 +16,8 @@ module.exports = {
             let succeededResponseArray = [],
                 failureResponseArray = [];
 
-            let deleteResponse = await callQueryDB.delete(requestPayload, dbDetails.tableName[args.params.tableName]);
-            succeededResponseArray.push(deleteResponse);
+            let readResponse = await callQueryDB.read(requestPayload.query = {}, requestPayload.options = {}, requestPayload.limit = 0, requestPayload.skip = 0, dbDetails.tableName[args.params.tableName]);
+            succeededResponseArray.push(readResponse);
 
             return await new Promise(async (resolve, _reject) => {
                 let response = await responseBuilder.getResponse(args, succeededResponseArray, failureResponseArray);
