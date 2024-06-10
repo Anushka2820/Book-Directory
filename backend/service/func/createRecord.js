@@ -17,7 +17,7 @@ module.exports = {
             let succeededResponseArray = [],
                 failureResponseArray = [];
 
-            let createPayload = await bookPayload.getCreatePayload(requestPayload);
+            let createPayload = await bookPayload.getBookPayload(requestPayload);
             let insertResponse = await callQueryDB.insert(createPayload, dbDetails.tableName[args.params.tableName]);
             succeededResponseArray.push(insertResponse);
 
