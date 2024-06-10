@@ -32,7 +32,7 @@ module.exports = {
             return await Promise.resolve(insertResponse);
         }
         catch (err) {
-            framework.info(err);
+            framework.error(err);
             throw err;
         }
     },
@@ -55,7 +55,7 @@ module.exports = {
             return await Promise.resolve(deleteResponse);
         }
         catch (err) {
-            framework.info(err);
+            framework.error(err);
             throw err;
         }
     },
@@ -79,7 +79,7 @@ module.exports = {
             return await Promise.resolve(updateResponse);
         }
         catch (err) {
-            framework.info(err);
+            framework.error(err);
             throw err;
         }
     },
@@ -102,7 +102,7 @@ module.exports = {
             return await Promise.resolve(readResponse);
         }
         catch (err) {
-            framework.info(err);
+            framework.error(err);
             throw err;
         }
     }

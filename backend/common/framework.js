@@ -3,21 +3,21 @@ const logger = require("./logger");
 const { v4: uuidv4 } = require('uuid');
 
 module.exports = {
-    info: (message) => {
-        logger.log("info", formatMessage(maskMessage(message)));
+    info: (message, payload) => {
+        logger.log("info", formatMessage(message, payload));
     },
-    debug: (message) => {
-        logger.log("debug", formatMessage(maskMessage(message)));
+    debug: (message, payload) => {
+        logger.log("debug", formatMessage(message, payload));
     },
-    error: (message) => {
-        logger.log("error", formatMessage(maskMessage(message)));
+    error: (message, payload) => {
+        logger.log("error", formatMessage(message, payload));
     },
-    logRequest: (componentName, message) => {
-        logger.log("info", formatMessage(`${componentName} request ::: ${maskMessage(message)}`));
+    logRequest: (componentName, payload) => {
+        logger.log("info", formatMessage(`${componentName} request ::: `, payload));
         return new Date();
     },
-    logResponse: (componentName, message, startTime) => {
-        logger.log("info", formatMessage(`${componentName} response ::: ${maskMessage(message)}`));
+    logResponse: (componentName, payload, startTime) => {
+        logger.log("info", formatMessage(`${componentName} response ::: `, payload));
         logger.log("info", formatMessage(`${componentName} successfully responded in ${new Date() - startTime} ms`));
     },
     execute: async (functionToInvoke, functionName, request, args) => {
@@ -37,23 +37,19 @@ async function initalize(request, functionName, args) {
     };
 }
 
-function formatMessage(message) {
+function formatMessage(message, payload) {
+    let clonedPayload = lodash.cloneDeep(payload);
+    if (clonedPayload && isJson(clonedPayload)) {
+        for (let eachPII of global.configValues.sanitizeArray) {
+            maskValue(clonedPayload, eachPII);
+        }
+        clonedPayload = JSON.stringify(clonedPayload, null, "\t");
+    }
     return JSON.stringify({
         corrId: module.exports.getCorrId(),
         functionName: global.configValues?.functionName,
-        detail: message
+        detail: message + (clonedPayload ? clonedPayload : "")
     });
-}
-
-function maskMessage(message) {
-    let clonedMessage = lodash.cloneDeep(message);
-    if (isJson(clonedMessage)) {
-        for (let eachPII of global.configValues.sanitizeArray) {
-            maskValue(clonedMessage, eachPII);
-        }
-        clonedMessage = JSON.stringify(clonedMessage, null, "\t");
-    }
-    return clonedMessage;
 }
 
 function isJson(message) {
@@ -69,7 +65,11 @@ function isJson(message) {
 function maskValue(obj, target) {
     if (obj && isJson(obj)) {
         if (obj[target] !== undefined) {
-            obj[target] = obj[target].slice(0, -4).replace(/./g, "*") + obj[target].slice(-4);
+            if (obj[target].length > 4) {
+                obj[target] = obj[target].slice(0, -4).replace(/./g, "*") + obj[target].slice(-4);
+            } else {
+                obj[target] = obj[target].slice(0, -1).replace(/./g, "*") + obj[target].slice(-1);
+            }
         }
         for (let subObj in obj) {
             maskValue(obj[subObj], target);

@@ -26,7 +26,7 @@ module.exports = {
             await db.createCollection(dbDetails.tableName.user);
             await db.collection(dbDetails.tableName.user).createIndex({ userId: 1 }, { unique: true });
 
-            await db.createCollection(dbDetails.tableName.userActivity);
+            await db.createCollection(dbDetails.tableName["user-activity"]);
 
             await client.close();
 

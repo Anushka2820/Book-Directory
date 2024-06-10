@@ -16,7 +16,11 @@ module.exports = {
             let succeededResponseArray = [],
                 failureResponseArray = [];
 
-            let readResponse = await callQueryDB.read(requestPayload.query = {}, requestPayload.options = {}, requestPayload.limit = 0, requestPayload.skip = 0, dbDetails.tableName[args.params.tableName]);
+            requestPayload.query = requestPayload.query ? requestPayload.query : {};
+            requestPayload.options = requestPayload.options ? requestPayload.options : {};
+            requestPayload.limit = requestPayload.limit ? requestPayload.limit : 0;
+            requestPayload.skip = requestPayload.skip ? requestPayload.skip : 0;
+            let readResponse = await callQueryDB.read(requestPayload.query, requestPayload.options, requestPayload.limit, requestPayload.skip, dbDetails.tableName[args.params.tableName]);
             succeededResponseArray.push(readResponse);
 
             return await new Promise(async (resolve, _reject) => {
