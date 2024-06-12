@@ -29,6 +29,7 @@
     cursor: grab;
     color: #ffffff;
     background-color: #1B1340;
+    background-image: radial-gradient(#959deb69, #1429e798, #1f29869a);
     font-size: 6vw;
     font-weight: bold;
     font-family: "Exo", sans-serif;
