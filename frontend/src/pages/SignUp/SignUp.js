@@ -47,9 +47,10 @@ const SignUp = () => {
                 style={{
                     height: "5vh",
                     width: "9vw",
+                    // border: "none",
                     borderRadius: "5vh",
                     background: "#1B1340",
-                    borderBlockColor: "#1B1340",
+                    borderBlockColor: "#000000",
                     color: "#FFFFFF",
                     fontSize: "0.6em",
                     cursor: "pointer"
@@ -80,10 +81,15 @@ const SignUp = () => {
                 <InputField label="Confirm Password" maxLength="20"
                     onBlurFunction={(event) => { updateAndValidateValue(event, appUtil.validatePassword) }}
                     onChangeFunction={(event) => { clearError(event, appUtil.validateEmail) }} type="password" />
-                <div className="SignUpMainTabButtons">
-                    {button("Sign Up", routeToHomePage)}
-                    {button("Go To Home", routeToLandingPage)}
+                <div className='SignUpPageButtons'>
+                    <div className="GoToHomeButton">
+                        {button("Sign Up", routeToHomePage)}
+                    </div>
+                    <div className="GoToHomeButton">
+                        {button("Go To Home", routeToLandingPage)}
+                    </div>
                 </div>
+
             </div>
         </div>
     );

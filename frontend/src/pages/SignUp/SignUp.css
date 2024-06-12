@@ -4,7 +4,7 @@
     display: flex;
     flex-direction: row;
     user-select: none;
-    background-color: #d8dafc;
+    background-color: #b2b3eb;
 }
 
 .SignUpLeftTab {
@@ -29,15 +29,27 @@
     justify-content: center;
     color: #1B1340;
     font-size: 2vw;
-    text-shadow: 0 0 5px #085801;
+    text-shadow: 0 0 5px #394638;
+    /* text-shadow: 0 0 5px #afbae7; */
 }
 
-.SignUpMainTabButtons {
-    width: 20vw;
+.GoToHomeButton:hover {
+    height: 5vh;
+    width: 9vw;
     display: flex;
     flex-direction: row;
     user-select: none;
-    justify-content: space-between;
-    font-size: 2vw;
+    border: none;
+    border-radius: 5vh;
+    /* border-block-color: #1B1340; */
+    cursor: pointer;
+    box-shadow: 0 15px 15px 0 rgba(0, 0, 0, 0.24), 0 15px 15px 0 rgba(0, 0, 0, 0.19);
+}
+
+.SignUpPageButtons {
+    width: 20vw;
+    display: flex;
+    flex-direction: row;
     align-items: stretch;
+    justify-content: space-between;
 }
