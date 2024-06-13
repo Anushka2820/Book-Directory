@@ -26,7 +26,7 @@ module.exports = {
 function processSuccess(args, succeededResponseArray) {
     return {
         status: 200,
-        ...args.headers,
+        headers: { ...args.headers },
         body: succeededResponseArray
     }
 }
@@ -34,7 +34,7 @@ function processSuccess(args, succeededResponseArray) {
 function processPartial(args, succeededResponseArray, failureResponseArray) {
     return {
         status: 206,
-        ...args.headers,
+        headers: { ...args.headers },
         body: failureResponseArray.concat(succeededResponseArray)
     }
 }
@@ -42,7 +42,7 @@ function processPartial(args, succeededResponseArray, failureResponseArray) {
 function processFailure(args, failureResponseArray) {
     return {
         status: 500,
-        ...args.headers,
+        headers: { ...args.headers },
         body: failureResponseArray
     }
 }

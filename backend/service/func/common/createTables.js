@@ -1,8 +1,8 @@
 const MongoClient = require("mongodb").MongoClient;
-const { dbDetails } = require("../util/appUtil.js");
-const headerUtil = require("../util/headerUtil.js");
-const framework = require("../../common/framework.js");
-const responseBuilder = require("../util/responseBuilder.js");
+const { dbDetails } = require("../../util/appUtil.js");
+const headerUtil = require("../../util/headerUtil.js");
+const framework = require("../../../common/framework.js");
+const responseBuilder = require("../../util/responseBuilder.js");
 const filename = __filename.slice(__dirname.length + 1, -3);
 
 module.exports = {

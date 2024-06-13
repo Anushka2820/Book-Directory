@@ -10,8 +10,14 @@ module.exports = {
             framework.info(`DB connection details ::: ${dbDetails.uri}:${dbDetails.database}:${tableName}`);
             let startTime = framework.logRequest(`${filename}.${arguments.callee.name}`, requestPayload);
 
-            const client = new MongoClient(dbDetails.uri);
-            await client.connect();
+            const client = new MongoClient(dbDetails.uri, {
+                serverSelectionTimeoutMS: process.env.DB_TIMEOUT
+            });
+            await client.connect().catch(err => {
+                framework.info(`DDB error response ::: ${err}`);
+                client.close();
+                throw err;
+            });
 
             const db = client.db(dbDetails.database);
             const collection = db.collection(tableName);
@@ -42,7 +48,9 @@ module.exports = {
             framework.info(`DB connection details ::: ${dbDetails.uri}:${dbDetails.database}:${tableName}`);
             let startTime = framework.logRequest(`${filename}.${arguments.callee.name}`, requestPayload);
 
-            const client = new MongoClient(dbDetails.uri);
+            const client = new MongoClient(dbDetails.uri, {
+                serverSelectionTimeoutMS: process.env.DB_TIMEOUT
+            });
             await client.connect();
 
             const db = client.db(dbDetails.database);
@@ -65,7 +73,9 @@ module.exports = {
             framework.info(`DB connection details ::: ${dbDetails.uri}:${dbDetails.database}:${tableName}`);
             let startTime = framework.logRequest(`${filename}.${arguments.callee.name}`, `Name ::: [${name}] Status ::: [${status}]`);
 
-            const client = new MongoClient(dbDetails.uri);
+            const client = new MongoClient(dbDetails.uri, {
+                serverSelectionTimeoutMS: process.env.DB_TIMEOUT
+            });
             await client.connect();
 
             const db = client.db(dbDetails.database);
@@ -89,12 +99,20 @@ module.exports = {
             framework.info(`DB connection details ::: ${dbDetails.uri}:${dbDetails.database}:${tableName}`);
             let startTime = framework.logRequest(`${filename}.${arguments.callee.name}`, { query, options, limit, skip });
 
-            const client = new MongoClient(dbDetails.uri);
-            await client.connect();
+            const client = new MongoClient(dbDetails.uri, {
+                serverSelectionTimeoutMS: process.env.DB_TIMEOUT
+            });
+
+            await client.connect().catch(err => {
+                framework.info(`DDB error response ::: ${err}`);
+                client.close();
+                throw err;
+            });
 
             const db = client.db(dbDetails.database);
             const collection = db.collection(tableName);
             let readResponse = await collection.find(query, options).limit(limit).skip(skip).toArray();
+            readResponse = readResponse.length === 1 ? readResponse[0] : readResponse;
             await client.close();
 
             framework.logResponse(`${filename}.${arguments.callee.name}`, readResponse, startTime);

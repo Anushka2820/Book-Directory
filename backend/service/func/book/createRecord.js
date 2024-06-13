@@ -1,9 +1,9 @@
-const { dbDetails } = require("../util/appUtil.js");
-const headerUtil = require("../util/headerUtil.js");
-const framework = require("../../common/framework.js");
-const callQueryDB = require("../subfunc/callQueryDB.js");
-const responseBuilder = require("../util/responseBuilder.js");
-const bookPayload = require("../util/payloadBuilder/bookPayload.js");
+const { dbDetails } = require("../../util/appUtil.js");
+const headerUtil = require("../../util/headerUtil.js");
+const framework = require("../../../common/framework.js");
+const callQueryDB = require("../../subfunc/callQueryDB.js");
+const responseBuilder = require("../../util/responseBuilder.js");
+const bookPayload = require("../../util/payloadBuilder/bookPayload.js");
 const filename = __filename.slice(__dirname.length + 1, -3);
 
 module.exports = {
@@ -18,7 +18,7 @@ module.exports = {
                 failureResponseArray = [];
 
             let createPayload = await bookPayload.getBookPayload(requestPayload);
-            let insertResponse = await callQueryDB.insert(createPayload, dbDetails.tableName[args.params.tableName]);
+            let insertResponse = await callQueryDB.insert(createPayload, dbDetails.tableName.book);
             succeededResponseArray.push(insertResponse);
 
             return await new Promise(async (resolve, _reject) => {
