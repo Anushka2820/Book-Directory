@@ -1,8 +1,9 @@
-import './SignIn.css';
-import { useNavigate } from 'react-router-dom';
-import InputField from '../../components/inputField/inputField.js';
-import React, { useState } from 'react';
-import appUtil from '../../util/appUtil.js';
+import "./SignIn.css";
+import React, { useState } from "react";
+import appUtil from "../../util/appUtil.js";
+import postData from "../../components/callAPI/callAPI.js";
+import { useNavigate } from "react-router-dom";
+import InputField from "../../components/inputField/inputField.js";
 
 const SignIn = () => {
     const navigate = useNavigate();
@@ -13,16 +14,28 @@ const SignIn = () => {
     });
 
     function routeToLandingPage() {
-        navigate("/");
+        navigate("/", { replace: true });
     }
 
-    function routeToHomePage() {
+    async function routeToHomePage() {
         let usernameValidated = appUtil.validateEmail(stateParams.Username, "Username", true);
         let passwordValidated = appUtil.validatePassword(stateParams.Password, "Password", true);
         if (usernameValidated && passwordValidated) {
-            navigate("/");
-        } else {
-            // console.log("a");
+
+            await postData(`${process.env.REACT_APP_BACKEND_HOST}/signin`, "POST", {
+                username: stateParams.Username,
+                password: stateParams.Password
+            }).then(response => {
+                console.log(response);
+                if (response.data.body.isAuthorizedUser) {
+                    navigate("/home", { state: { jwt: response.data.body.authorizationToken } });
+                } else {
+                    navigate("/asdf", { replace: true });
+                }
+            }).catch(err => {
+                console.log(err);
+                navigate("/asdf", { replace: true });
+            });
         }
     }
 

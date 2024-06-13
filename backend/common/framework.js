@@ -22,7 +22,8 @@ module.exports = {
     },
     execute: async (functionToInvoke, functionName, request, args) => {
         await initalize(request, functionName, args);
-        return await functionToInvoke(args);
+        let functionResponse = await functionToInvoke(args);
+        return { functionResponse, status: functionResponse.status ? functionResponse.status : 500 };
     },
     getCorrId: () => {
         return global.configValues?.corrId ? global.configValues.corrId : uuidv4();
