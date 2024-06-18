@@ -14,10 +14,20 @@
     flex-direction: column;
     align-items: center;
     justify-content: center;
-    color: #FFFFFF;
+    color: #ffffff;
     background-color: #1B1340;
-    font-size: 2vw;
-    text-shadow: 0 0 5px #ffbb00;
+    border-bottom-right-radius: 5vh;
+    border-top-right-radius: 5vh;
+    background-image: radial-gradient(#959deb69, #1429e798, #1f29869a);
+    box-shadow: 1vh 0 1vh 0.5vh #443974, -1vh 0 1vh 0.5vh #443974;
+    font-size: 2.5vw;
+    font-family: "Trirong", serif;
+    font-weight: bold;
+    text-shadow: 1px 1px 0 #0004ffb7, 2px 2px 0 #0004ffb7,
+        3px 3px 0 #000000, 4px 4px 0 #000000,
+        5px 5px 0 #00000081, 5px 6px 0 #00000081,
+        20px 20px 30px rgba(0, 0, 0, 0.815);
+
 }
 
 .SignUpMainTab {
