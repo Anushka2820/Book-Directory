@@ -77,10 +77,10 @@ const SignUp = () => {
                     onChangeFunction={(event) => { clearError(event, appUtil.validateEmail) }} />
                 <InputField label="Password" maxLength="20"
                     onBlurFunction={(event) => { updateAndValidateValue(event, appUtil.validatePassword) }}
-                    onChangeFunction={(event) => { clearError(event, appUtil.validateEmail) }} type="password" />
+                    onChangeFunction={(event) => { clearError(event, appUtil.validateEmail) }} fieldType="password" />
                 <InputField label="Confirm Password" maxLength="20"
                     onBlurFunction={(event) => { updateAndValidateValue(event, appUtil.validatePassword) }}
-                    onChangeFunction={(event) => { clearError(event, appUtil.validateEmail) }} type="password" />
+                    onChangeFunction={(event) => { clearError(event, appUtil.validateEmail) }} fieldType="password" />
                 <div className='SignUpPageButtons'>
                     <div className="GoToHomeButton">
                         {button("Sign Up", routeToHomePage)}
