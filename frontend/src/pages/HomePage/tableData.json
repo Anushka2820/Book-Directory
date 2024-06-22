@@ -1,0 +1,32 @@
+[
+    {
+        "name": "Book6 fcdsgdsfga dsgdsafdg fsdgfdhgfdhs dsgfdshgfdghjtfhjfd fcdsgdsfga dsgdsafdg fsdgfdhgfdhs dsgfdshgfdghjtfhjfd fcdsgdsfga dsgdsafdg fsdgfdhgfdhs dsgfdshgfdghjtfhjfd",
+        "author": "author1 fdjsfgnvsdjfgnvjnj ihnsfhnsfhnishngodsgjog ijhsfiohnsdigoshgodfdbnsfiohnfios hijndsighoiofdhghfdgio",
+        "status": "STATUS_AVAILABLE"
+    },
+    {
+        "name": "Book1",
+        "author": "Zsdfsdg",
+        "status": "STATUS_AVAILABLE"
+    },
+    {
+        "name": "Book2",
+        "author": "Baadssfsd",
+        "status": "STATUS_AVAILABLE"
+    },
+    {
+        "name": "Book3",
+        "author": "Author3",
+        "status": null
+    },
+    {
+        "name": "Book5",
+        "author": null,
+        "status": "STATUS_AVAILABLE"
+    },
+    {
+        "name": "Book4",
+        "author": "Author4",
+        "status": "STATUS_UNAVAILABLE"
+    }
+]
