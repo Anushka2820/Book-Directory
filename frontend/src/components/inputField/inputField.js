@@ -1,7 +1,7 @@
 import React, { useState, useRef } from "react";
 import "./inputField.css";
 
-const InputField = ({ label, fieldType, maxLength, locked, value, stateParamDetails, className, width, placeholder, predictedValues, spellCheck, showCancel, onBlurFunction, onChangeFunction, onSearchFunction }) => {
+const InputField = ({ label, fieldType, maxLength, locked, value, errorMessage, stateParamDetails, className, width, placeholder, predictedValues, spellCheck, showCancel, onBlurFunction, onChangeFunction, onSearchFunction }) => {
 
     predictedValues = Array.isArray(predictedValues) ? [...new Set(predictedValues.filter(eachRes => eachRes))] : [];
 
@@ -72,7 +72,7 @@ const InputField = ({ label, fieldType, maxLength, locked, value, stateParamDeta
                 @import url("https://fonts.googleapis.com/icon?family=Material+Icons");
             </style>
             <div>
-                <div id={className + "Component"} className={fieldClassName} style={{ marginBottom: "2vh", width: width }}>
+                <div id={className + "Component"} className={fieldClassName} style={{ marginBottom: errorMessage ? "1vh" : "2vh", width: width }}>
                     <input
                         type={(type === "password" && stateParams.showPassword) ? "text" : type}
                         value={stateParams.value}
@@ -124,9 +124,9 @@ const InputField = ({ label, fieldType, maxLength, locked, value, stateParamDeta
                     </div>
                 </div>
                 <div id={className + "Error"} className="error"
-                    style={{ display: "none", marginBottom: "2vh" }}>
+                    style={{ display: errorMessage ? "flex" : "none", marginBottom: "2vh" }}>
                     <div><i className="material-icons" style={{ fontSize: "1.8vh", marginRight: "0.5vw" }}>&#xe001;</i></div>
-                    <div id={className + "ErrorMsg"}></div>
+                    <div id={className + "ErrorMsg"}>{errorMessage}</div>
                 </div>
             </div>
         </div>

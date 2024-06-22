@@ -13,6 +13,11 @@ const SignIn = () => {
         Password: ""
     });
 
+    let [errorMessage, updateErrorMessage] = useState({
+        Username: "",
+        Password: ""
+    });
+
     function routeToLandingPage() {
         navigate("/", { replace: true });
     }
@@ -20,7 +25,8 @@ const SignIn = () => {
     async function routeToHomePage() {
         let usernameValidated = appUtil.validateEmail(stateParams.Username, "Username", true);
         let passwordValidated = appUtil.validatePassword(stateParams.Password, "Password", true);
-        if (usernameValidated && passwordValidated) {
+        updateErrorMessage({ Username: usernameValidated, Password: passwordValidated });
+        if (!usernameValidated && !passwordValidated) {
 
             await postData(`${process.env.REACT_APP_BACKEND_HOST}/signin`, "POST", {
                 username: stateParams.Username,
@@ -40,13 +46,11 @@ const SignIn = () => {
     }
 
     function updateAndValidateValue(event, validateFunction) {
-        validateFunction(event.target.value, event.target.className);
-        updateState({ ...stateParams, [event.target.className]: event.target.value });
+        updateErrorMessage({ ...errorMessage, [event.target.className]: validateFunction(stateParams[event.target.className], event.target.className) });
     }
 
     function clearError(event, validateFunction) {
-        validateFunction("", event.target.className);
-        updateState({ ...stateParams, [event.target.className]: event.target.value });
+        updateErrorMessage({ ...errorMessage, [event.target.className]: validateFunction("", event.target.className) });
     }
 
     function button(textValue, onClickFunction) {
@@ -78,11 +82,19 @@ const SignIn = () => {
             </div>
             <div className="SignInMainTab">
                 <InputField label="Username" maxLength="20"
+                    stateParamDetails={{
+                        stateValues: stateParams, stateFunction: updateState, keyName: "Username"
+                    }}
+                    errorMessage={errorMessage.Username}
                     onBlurFunction={(event) => { updateAndValidateValue(event, appUtil.validateEmail) }}
                     onChangeFunction={(event) => { clearError(event, appUtil.validateEmail) }} />
                 <InputField label="Password" maxLength="20"
+                    stateParamDetails={{
+                        stateValues: stateParams, stateFunction: updateState, keyName: "Password"
+                    }}
+                    errorMessage={errorMessage.Password}
                     onBlurFunction={(event) => { updateAndValidateValue(event, appUtil.validatePassword) }}
-                    onChangeFunction={(event) => { clearError(event, appUtil.validateEmail) }} type="password" />
+                    onChangeFunction={(event) => { clearError(event, appUtil.validateEmail) }} fieldType="password" />
                 <div className="SignInMainTabButtons">
                     {button("Sign In", routeToHomePage)}
                     {button("Go To Home", routeToLandingPage)}
