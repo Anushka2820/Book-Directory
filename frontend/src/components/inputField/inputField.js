@@ -1,32 +1,59 @@
-import React, { useState } from "react";
+import React, { useState, useRef } from "react";
 import "./inputField.css";
 
-const InputField = ({ label, type, maxLength, locked, value, className, onBlurFunction, onChangeFunction }) => {
+const InputField = ({ label, fieldType, maxLength, locked, value, stateParamDetails, className, width, placeholder, predictedValues, spellCheck, showCancel, onBlurFunction, onChangeFunction, onSearchFunction }) => {
+
+    predictedValues = Array.isArray(predictedValues) ? [...new Set(predictedValues.filter(eachRes => eachRes))] : [];
 
     let [stateParams, updateState] = useState({
         active: locked || false,
+        showPassword: (fieldType === "password") ? false : undefined,
         value: value || "",
-        label: label || "Label",
-        type: type || "text",
-        maxLength: maxLength,
-        showPassword: (type === "password") ? false : undefined,
-        className: className || label || "Label"
+        predictedValues
     });
 
-    function changeValue(event) {
-        const value = event.target.value;
-        updateState({ ...stateParams, value });
-        onChangeFunction(event);
+    width = width || "20vw";
+    label = label || "Label";
+    className = className || label;
+    spellCheck = spellCheck || false;
+    placeholder = placeholder || label;
+
+    let type = ["password"].includes(fieldType) ? fieldType : "text";
+
+    function changeValue(event, className) {
+        let fieldValue = event.target.value;
+        let updatedPredictedValues = predictedValues.filter(eachPredictedValues => eachPredictedValues.toLowerCase().startsWith(fieldValue.toLowerCase()));
+        updateState({ ...stateParams, value: fieldValue, predictedValues: updatedPredictedValues });
+        if (stateParamDetails?.stateFunction)
+            if (stateParamDetails.keyName) {
+                stateParamDetails.stateFunction({ ...stateParamDetails.stateValues, [label]: fieldValue });
+            } else {
+                stateParamDetails.stateFunction(fieldValue);
+            }
+        if (onChangeFunction)
+            onChangeFunction(event, className);
     }
 
     function blurInput(event) {
-        if (onBlurFunction && !stateParams.locked) {
+        if (!locked) {
             updateState({ ...stateParams, active: false });
-            onBlurFunction(event);
-        } else {
-            !stateParams.locked && updateState({ ...stateParams, active: false });
+            if (onBlurFunction)
+                onBlurFunction(event);
         }
     }
+
+    function searchIconClick(event) {
+        updateState({ ...stateParams, active: false });
+        onSearchFunction(event)
+    }
+
+    const useFocus = () => {
+        const htmlElRef = useRef(null)
+        const setFocus = () => { htmlElRef.current && htmlElRef.current.focus() }
+        return [htmlElRef, setFocus]
+    }
+
+    const [inputRef, setInputFocus] = useFocus();
 
     let fieldClassName = "field nonActive";
 
@@ -41,37 +68,65 @@ const InputField = ({ label, type, maxLength, locked, value, className, onBlurFu
     return (
         <div >
             <style>
-                @import url("https://cdn.jsdelivr.net/npm/bootstrap-icons@1.3.0/font/bootstrap-icons.css");
+                @import url("https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css");
                 @import url("https://fonts.googleapis.com/icon?family=Material+Icons");
             </style>
             <div>
-                <div id={stateParams.className + "Component"} className={fieldClassName} style={{ marginBottom: "2vh" }}>
+                <div id={className + "Component"} className={fieldClassName} style={{ marginBottom: "2vh", width: width }}>
                     <input
-                        type={(stateParams.type === "password" && stateParams.showPassword) ? "text" : stateParams.type}
+                        type={(type === "password" && stateParams.showPassword) ? "text" : type}
                         value={stateParams.value}
-                        placeholder={stateParams.label}
+                        placeholder={placeholder}
                         autoComplete="off"
                         onChange={changeValue}
-                        maxLength={stateParams.maxLength}
+                        maxLength={maxLength}
                         onFocus={() => !locked && updateState({ ...stateParams, active: true })}
                         onBlur={blurInput}
-                        className={stateParams.className}
+                        size={maxLength}
+                        className={className}
+                        ref={inputRef}
+                        spellCheck={spellCheck}
                     />
 
-                    <label htmlFor={1} className="title" style={{ display: (stateParams.active || stateParams.value) ? "block" : "none" }}>
-                        {stateParams.label}
+                    <label htmlFor={1} className="title" style={{ display: (stateParams.active || stateParams.value) ? "block" : "none", transition: "5s" }}>
+                        {label}
                     </label>
                     <div>
                         <i className={stateParams.showPassword ? "bi-eye passwordIcon" : "bi bi-eye-slash passwordIcon"}
                             onClick={() => updateState({ ...stateParams, showPassword: !stateParams.showPassword })}
-                            style={{ display: (stateParams.type === "password") ? "block" : "none" }}>
+                            style={{ display: (fieldType === "password") ? "block" : "none" }}>
+                        </i>
+                        <i className="bi bi-search searchIcon"
+                            onClick={searchIconClick}
+                            style={{ display: (fieldType === "search") ? "block" : "none" }}>
+                        </i>
+                        <i className="bi bi-x-lg cancelIcon"
+                            onClick={(event) => {
+                                event.target.value = "";
+                                stateParams.active = true;
+                                setInputFocus(event);
+                                changeValue(event, className);
+                            }}
+                            style={{ display: (showCancel && stateParams.value) ? "block" : "none", right: (fieldType === "search") || (fieldType === "password") ? "3vw" : "1vw" }}>
                         </i>
                     </div>
+                    <div className="predictedValues" style={{ display: stateParams.predictedValues.length > 0 && stateParams.value ? "flex" : "none", flexDirection: "column" }}>
+                        {stateParams.predictedValues.map(eachPredictedValues => {
+                            return (
+                                <div key={eachPredictedValues} style={{ display: "flex", flexDirection: "row", cursor: "pointer" }} onClick={(event => {
+                                    setInputFocus(event);
+                                    event.target.value = eachPredictedValues;
+                                    changeValue(event, className);
+                                    updateState({ ...stateParams, active: true, value: eachPredictedValues, predictedValues: [] });
+                                })} className="predictedDropDown">{eachPredictedValues}</div>
+                            )
+                        })}
+                    </div>
                 </div>
-                <div id={stateParams.className + "Error"} className="error"
+                <div id={className + "Error"} className="error"
                     style={{ display: "none", marginBottom: "2vh" }}>
                     <div><i className="material-icons" style={{ fontSize: "1.8vh", marginRight: "0.5vw" }}>&#xe001;</i></div>
-                    <div id={stateParams.className + "ErrorMsg"}></div>
+                    <div id={className + "ErrorMsg"}></div>
                 </div>
             </div>
         </div>
