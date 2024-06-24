@@ -81,17 +81,21 @@ const SignIn = () => {
                 Sign In
             </div>
             <div className="SignInMainTab">
-                <InputField label="Username" maxLength="20"
+                <InputField label="Username"
+                    maxLength="20"
                     stateParamDetails={{
                         stateValues: stateParams, stateFunction: updateState, keyName: "Username"
                     }}
+                    value={stateParams.Username}
                     errorMessage={errorMessage.Username}
                     onBlurFunction={(event) => { updateAndValidateValue(event, appUtil.validateEmail) }}
                     onChangeFunction={(event) => { clearError(event, appUtil.validateEmail) }} />
-                <InputField label="Password" maxLength="20"
+                <InputField label="Password"
+                    maxLength="20"
                     stateParamDetails={{
                         stateValues: stateParams, stateFunction: updateState, keyName: "Password"
                     }}
+                    value={stateParams.Password}
                     errorMessage={errorMessage.Password}
                     onBlurFunction={(event) => { updateAndValidateValue(event, appUtil.validatePassword) }}
                     onChangeFunction={(event) => { clearError(event, appUtil.validateEmail) }} fieldType="password" />

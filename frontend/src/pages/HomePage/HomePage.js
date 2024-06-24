@@ -3,29 +3,28 @@ import React, { useState } from "react";
 // import { useLocation } from "react-router-dom";
 import InputField from "../../components/inputField/inputField.js";
 
-
 import tableContent from "./tableData.json";
+
+const columns = [
+    { label: "Book Name", accessor: "name", width: "40vw" },
+    { label: "Author", accessor: "author", width: "25vw" },
+    {
+        label: "Status", accessor: "status", width: "10vw",
+        visibleValueMapping: {
+            STATUS_AVAILABLE: "Available",
+            STATUS_UNAVAILABLE: "Unavailable"
+        },
+        opacityLevel: {
+            Available: 1,
+            Unavailable: 0.6
+        }
+    }
+];
 
 const HomePage = () => {
     // const { state } = useLocation();
     // const { _jwt } = state;
     // console.log(JSON.stringify(jwt));
-
-    const columns = [
-        { label: "Book Name", accessor: "name", width: "40vw" },
-        { label: "Author", accessor: "author", width: "25vw" },
-        {
-            label: "Status", accessor: "status", width: "10vw",
-            visibleValueMapping: {
-                STATUS_AVAILABLE: "Available",
-                STATUS_UNAVAILABLE: "Unavailable"
-            },
-            opacityLevel: {
-                Available: 1,
-                Unavailable: 0.6
-            }
-        }
-    ];
 
     let [leftTabStateParams, updateLeftTabState] = useState({
         LeftTabArrow: "fa fa-chevron-circle-right",
@@ -35,6 +34,8 @@ const HomePage = () => {
     function updateLeftTabHoverState() {
         updateLeftTabState({ ...leftTabStateParams, LeftTabArrow: leftTabStateParams.isHoverActive ? "fa fa-chevron-circle-right" : "fa fa-chevron-circle-left", isHoverActive: !leftTabStateParams.isHoverActive });
     }
+
+    let [searchValue, updateSearchValue] = useState("");
 
     function onChange() { }
 
@@ -53,23 +54,10 @@ const HomePage = () => {
 
     function updateMainTabFilterState() {
         updateSettingsHover(false);
-        if (isFilterOpen) {
-            let filterTabFields = {};
-            for (let eachColumn of columns) {
-                filterTabFields[eachColumn.label] = "";
-            }
-            updateFilterTabState(filterTabFields);
-        }
         updateFilterHoverState(!isFilterOpen);
     }
 
-    let filterTabFields = {};
-
-    for (let eachColumn of columns) {
-        filterTabFields[eachColumn.label] = "";
-    }
-
-    let [filterTabStateParams, updateFilterTabState] = useState(filterTabFields);
+    let [filterTabStateParams, updateFilterTabState] = useState(initializeFilterTabValues());
 
     function updateTableFilter() {
         let updatedTableData = [...tableContent];
@@ -84,7 +72,6 @@ const HomePage = () => {
                 updatedTableData = updatedTableData.filter(eachRow => eachRow[eachColumn.accessor] === filterValue);
             }
         }
-
         setTableData(updatedTableData);
         updateMainTabFilterState();
     }
@@ -122,33 +109,42 @@ const HomePage = () => {
                 <i className={`${leftTabStateParams.LeftTabArrow} HomeLeftTabArrow`} style={{
                     left: leftTabStateParams.isHoverActive ? "14vw" : "0.5vw",
                     top: leftTabStateParams.isHoverActive ? "5vh" : "45vh", fontSize: "48px", color: "#FFFFFF", textShadow: "0 0 15px #1B1340", transition: "0.3s"
-                }}></i>
+                }} />
                 <div className="HomeLeftTabContent" style={{ fontSize: leftTabStateParams.isHoverActive ? "50px" : "0", transition: "0.3s" }}>
                     Home Page
                 </div>
             </div>
 
             <div className="HomeMain">
-                <div style={{ marginTop: "2vh", marginBottom: "2vh", display: "flex", flexDirection: "row", filter: isFilterOpen ? "blur(12px)" : null, opacity: isFilterOpen ? "0.4" : "1", transition: "1s" }}>
-                    <InputField label="Book Name" maxLength="60" locked={isFilterOpen} width="50vw" fieldType="search" placeholder="Enter the book name" spellCheck={true} showCancel={true}
-                        onChangeFunction={(event) => { onChange() }} onSearchFunction={onChange} />
+                <div style={{ marginTop: "2vh", marginBottom: "2vh", display: "flex", flexDirection: "row", filter: isFilterOpen || leftTabStateParams.isHoverActive ? "blur(12px)" : null, opacity: isFilterOpen || leftTabStateParams.isHoverActive ? "0.4" : "1", transition: "1s" }}>
+                    <InputField label="Book Name"
+                        maxLength="60"
+                        locked={isFilterOpen}
+                        width="50vw"
+                        fieldType="search"
+                        placeholder="Enter the book name"
+                        spellCheck={true}
+                        showCancel={true}
+                        value={searchValue}
+                        stateParamDetails={{ stateFunction: updateSearchValue }}
+                        onChangeFunction={(event) => { onChange() }}
+                        onSearchFunction={onChange} />
                     <i className="bi bi-gear-fill" style={{ fontSize: "5vh", marginLeft: "1vw", color: "#1B1340", cursor: isFilterOpen ? null : "pointer" }} onMouseEnter={updateMainTabSettingsHoverState} onMouseLeave={updateMainTabSettingsHoverState}>
                         <div className="settingsDropdown" style={{ display: isSettingsHover ? "flex" : "none", flexDirection: "column" }}>
-                            <div style={{ display: "flex", flexDirection: "row" }} onClick={refreshPage}><i className="fa fa-refresh"></i><div style={{ marginLeft: "0.5vw" }}>Refresh</div></div>
-                            <div style={{ display: "flex", flexDirection: "row" }} onClick={updateMainTabFilterState}><i className="bi bi-funnel"></i><div style={{ marginLeft: "0.5vw" }}>Filter</div></div>
+                            <div style={{ display: "flex", flexDirection: "row" }} onClick={refreshPage}><i className="fa fa-refresh" /><div style={{ marginLeft: "0.5vw" }}>Refresh</div></div>
+                            <div style={{ display: "flex", flexDirection: "row" }} onClick={updateMainTabFilterState}><i className="bi bi-funnel" /><div style={{ marginLeft: "0.5vw" }}>Filter</div></div>
                         </div>
                     </i>
                 </div>
 
-                <div className="homeBookListTable" style={{ filter: isFilterOpen ? "blur(12px)" : null, opacity: isFilterOpen ? "0.4" : "1", transition: "1s" }}>
+                <div className="homeBookListTable" style={{ filter: isFilterOpen || leftTabStateParams.isHoverActive ? "blur(12px)" : null, opacity: isFilterOpen || leftTabStateParams.isHoverActive ? "0.4" : "1", transition: "1s" }}>
                     <div className="homeBookListTableEachRow header">
                         {columns.map((eachHeader) => {
                             return (
                                 <div key={eachHeader.accessor} className="homeBookListTableEachCell header" style={{ width: eachHeader.width }} onClick={(eachHeader.sortable === false) || isFilterOpen ? null : () => handleSortingChange(eachHeader.accessor)}>
                                     <div >{eachHeader.label}</div>
                                     <i className={order === "asc" ? "bi bi-caret-up-fill" : "bi bi-caret-down-fill"}
-                                        style={{ display: (eachHeader.accessor === sortField) ? "block" : "none", marginLeft: "5px" }}>
-                                    </i>
+                                        style={{ display: (eachHeader.accessor === sortField) ? "block" : "none", marginLeft: "5px" }} />
                                 </div>
                             )
                         })}
@@ -177,22 +173,38 @@ const HomePage = () => {
 
                 <div className="homeMainFilterTab" style={{ display: isFilterOpen ? "flex" : "none" }}>
                     <div style={{ margin: "2vh" }}>FILTER</div>
+                    <i className="bi bi-x-lg homePageFilterTabCancelIcon"
+                        onClick={updateMainTabFilterState} />
                     {columns.map(eachHeader => {
                         return (
-                            <InputField key={eachHeader.label} label={eachHeader.label} stateParamDetails={{
-                                stateValues: filterTabStateParams, stateFunction: updateFilterTabState, keyName: eachHeader.label
-                            }} predictedValues={tableContent.map(eachResponse => eachResponse[eachHeader.accessor])} />
+                            <InputField label={eachHeader.label}
+                                key={eachHeader.label}
+                                stateParamDetails={{
+                                    stateValues: filterTabStateParams, stateFunction: updateFilterTabState, keyName: eachHeader.label
+                                }}
+                                fieldType="multipleSelect"
+                                value={filterTabStateParams[eachHeader.label]}
+                                predictedValues={tableContent.map(eachResponse => eachResponse[eachHeader.accessor])} />
                         )
                     })}
-                    <div className="homePageButtonsTab">
-                        <button onClick={updateTableFilter} className="homePageButtons">Submit</button>
-                        <button onClick={updateMainTabFilterState} className="homePageButtons">Close</button>
+                    <div className="homePageFilterTabButtonsTab">
+                        <button onClick={updateTableFilter} className="homePageFilterTabButtons">Submit</button>
+                        <button onClick={() => {
+                            updateFilterTabState(initializeFilterTabValues());
+                        }} className="homePageFilterTabButtons">Clear</button>
                     </div>
                 </div>
-
             </div>
         </div>
     );
 };
+
+function initializeFilterTabValues() {
+    let filterTabFields = {};
+    for (let eachColumn of columns) {
+        filterTabFields[eachColumn.label] = "";
+    }
+    return filterTabFields;
+}
 
 export default HomePage;

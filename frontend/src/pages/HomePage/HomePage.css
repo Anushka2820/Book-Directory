@@ -116,8 +116,8 @@
     position: absolute;
     z-index: 1;
     background-color: #b4b8fa;
-    border-radius: 4vh 14vh 4vh 14vh;
-    box-shadow: 15px 15px 16px 8px #00000065;
+    border-radius: 14vh 4vh 14vh 4vh;
+    box-shadow: 15px 15px 16px 8px #00000065, -5px -5px 0.5px 2px #00000065;
     flex-direction: column;
     align-items: center;
     justify-content: center;
@@ -125,7 +125,21 @@
     padding: 2vh;
 }
 
-.homePageButtons:hover {
+.homePageFilterTabCancelIcon {
+    position: absolute;
+    margin-right: 0.3vw;
+    top: 2vh;
+    right: 1.5vw;
+    font-size: 5vh;
+    max-width: 4vw;
+    cursor: pointer;
+    text-shadow: 0 0 0.5vh #ffffff;
+    color: #000000;
+    font-weight: bold;
+
+}
+
+.homePageFilterTabButtons:hover {
     height: 5vh;
     width: 7.5vw;
     display: flex;
@@ -137,7 +151,7 @@
     box-shadow: 0 15px 15px 0 rgba(0, 0, 0, 0.24), 0 15px 15px 0 rgba(0, 0, 0, 0.19);
 }
 
-.homePageButtons {
+.homePageFilterTabButtons {
     display: flex;
     align-items: center;
     justify-content: center;
@@ -152,7 +166,7 @@
     text-align: center;
 }
 
-.homePageButtonsTab {
+.homePageFilterTabButtonsTab {
     width: 20vw;
     display: flex;
     flex-direction: row;
