@@ -86,18 +86,15 @@ input {
     transition: 0.1s all ease-in-out;
 }
 
-/* .inputComponent {
-    display: flex;
-    flex-direction: "row";
-} */
-
 .inputFieldPredictedValues {
     padding: 1vh;
     display: none;
     position: absolute;
     background-color: #7266a7;
     color: #FFFFFF;
-    font-size: 0.7em;
+    font-size: 1.8vh;
+    overflow-y: auto;
+    max-height: 10vh;
     font-style: normal;
     overflow: auto;
     box-shadow: 15px 15px 16px 8px #00000065;

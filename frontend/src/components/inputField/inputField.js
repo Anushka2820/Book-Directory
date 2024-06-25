@@ -28,7 +28,7 @@ const InputField = ({
         predictedValues
     });
 
-    width = width || "20vw";
+    width = width || 20;
     label = label || "Label";
     className = className || label;
     spellCheck = spellCheck || false;
@@ -89,7 +89,7 @@ const InputField = ({
                 @import url("https://fonts.googleapis.com/icon?family=Material+Icons");
             </style>
             <div>
-                <div id={className + "Component"} className={fieldClassName} style={{ marginBottom: errorMessage ? "1vh" : "2vh", width: width }}>
+                <div id={className + "Component"} className={fieldClassName} style={{ marginBottom: errorMessage ? "1vh" : "2vh", width: width + "vw" }}>
                     <input
                         type={(type === "password" && stateParams.showPassword) ? "text" : type}
                         value={value}
@@ -127,7 +127,7 @@ const InputField = ({
                             style={{ display: (showCancel && value) ? "block" : "none", right: (fieldType === "search") || (fieldType === "password") ? "3vw" : "1vw" }}>
                         </i>
                     </div>
-                    <div className="inputFieldPredictedValues" style={{ display: stateParams.predictedValues.length > 0 && value ? "flex" : "none", flexDirection: "column" }}>
+                    <div className="inputFieldPredictedValues" style={{ display: stateParams.predictedValues.length > 0 && value ? "flex" : "none", flexDirection: "column", width: width - 3 + "vw" }}>
                         {stateParams.predictedValues.map(eachPredictedValues => {
                             return (
                                 <div key={eachPredictedValues} style={{ display: "flex", flexDirection: "row", cursor: "pointer" }} onClick={(event => {

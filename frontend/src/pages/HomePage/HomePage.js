@@ -2,6 +2,7 @@ import "./HomePage.css";
 import React, { useState } from "react";
 // import { useLocation } from "react-router-dom";
 import InputField from "../../components/inputField/inputField.js";
+import MultiInputField from "../../components/multipleInput/multiInputField.js";
 
 import tableContent from "./tableData.json";
 
@@ -120,7 +121,7 @@ const HomePage = () => {
                     <InputField label="Book Name"
                         maxLength="60"
                         locked={isFilterOpen}
-                        width="50vw"
+                        width={50}
                         fieldType="search"
                         placeholder="Enter the book name"
                         spellCheck={true}
