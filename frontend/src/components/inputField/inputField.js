@@ -89,7 +89,7 @@ const InputField = ({
                 @import url("https://fonts.googleapis.com/icon?family=Material+Icons");
             </style>
             <div>
-                <div id={className + "Component"} className={fieldClassName} style={{ marginBottom: errorMessage ? "1vh" : "2vh", width: width + "vw" }}>
+                <div className={fieldClassName} style={{ marginBottom: errorMessage ? "1vh" : "2vh", width: width + "vw" }}>
                     <input
                         type={(type === "password" && stateParams.showPassword) ? "text" : type}
                         value={value}
@@ -105,28 +105,26 @@ const InputField = ({
                         spellCheck={spellCheck}
                     />
 
-                    <label htmlFor={1} className="title" style={{ display: (stateParams.active || value) ? "block" : "none" }}>
-                        {label}
-                    </label>
-                    <div>
-                        <i className={stateParams.showPassword ? "bi-eye passwordIcon" : "bi bi-eye-slash inputFieldPasswordIcon"}
-                            onClick={() => updateState({ ...stateParams, showPassword: !stateParams.showPassword })}
-                            style={{ display: (fieldType === "password") ? "block" : "none" }}>
-                        </i>
-                        <i className="bi bi-search inputFieldSearchIcon"
-                            onClick={searchIconClick}
-                            style={{ display: (fieldType === "search") ? "block" : "none" }}>
-                        </i>
-                        <i className="bi bi-x-lg inputFieldCancelIcon"
-                            onClick={(event) => {
-                                event.target.value = "";
-                                stateParams.active = true;
-                                setInputFocus(event);
-                                changeValue(event, className);
-                            }}
-                            style={{ display: (showCancel && value) ? "block" : "none", right: (fieldType === "search") || (fieldType === "password") ? "3vw" : "1vw" }}>
-                        </i>
-                    </div>
+                    <label className="title" style={{ display: (stateParams.active || value) ? "block" : "none" }}>{label}</label>
+
+                    <i className={stateParams.showPassword ? "bi-eye inputFieldPasswordIcon" : "bi bi-eye-slash inputFieldPasswordIcon"}
+                        onClick={() => updateState({ ...stateParams, showPassword: !stateParams.showPassword })}
+                        style={{ display: (fieldType === "password") ? "block" : "none" }}>
+                    </i>
+                    <i className="bi bi-search inputFieldSearchIcon"
+                        onClick={searchIconClick}
+                        style={{ display: (fieldType === "search") ? "block" : "none" }}>
+                    </i>
+                    <i className="bi bi-x-lg inputFieldCancelIcon"
+                        onClick={(event) => {
+                            event.target.value = "";
+                            stateParams.active = true;
+                            setInputFocus(event);
+                            changeValue(event, className);
+                        }}
+                        style={{ display: (showCancel && value) ? "block" : "none", right: (fieldType === "search") || (fieldType === "password") ? "3vw" : "1vw" }}>
+                    </i>
+
                     <div className="inputFieldPredictedValues" style={{ display: stateParams.predictedValues.length > 0 && value ? "flex" : "none", flexDirection: "column", width: width - 3 + "vw" }}>
                         {stateParams.predictedValues.map(eachPredictedValues => {
                             return (
